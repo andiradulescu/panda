@@ -1,5 +1,3 @@
-import platform
-
 env = Environment(
   CC='clang',
   CFLAGS=[
