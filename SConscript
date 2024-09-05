@@ -2,7 +2,6 @@ import os
 import subprocess
 
 
-PREFIX = "arm-none-eabi-"
 BUILDER = "DEV"
 
 common_flags = []
@@ -75,8 +74,11 @@ def build_project(project_name, project, extra_flags):
     "-nostdlib",
     "-fno-builtin",
     "-std=gnu11",
-    "-fmax-errors=1",
+    "-ferror-limit=1",
     f"-T{linkerscript_fn}",
+    "-fuse-ld=lld",
+    "--target=arm-none-eabi",
+    "-Wno-unused-command-line-argument",
   ]
 
   includes = [
@@ -88,10 +90,10 @@ def build_project(project_name, project, extra_flags):
 
   env = Environment(
     ENV=os.environ,
-    CC=PREFIX + 'gcc',
-    AS=PREFIX + 'gcc',
-    OBJCOPY=PREFIX + 'objcopy',
-    OBJDUMP=PREFIX + 'objdump',
+    CC='clang',
+    AS='clang',
+    OBJCOPY='llvm-objcopy',
+    OBJDUMP='llvm-objdump',
     CFLAGS=flags,
     ASFLAGS=flags,
     LINKFLAGS=flags,
@@ -138,7 +140,7 @@ base_project_f4 = {
     "-DSTM32F413xx",
     "-Iboard/stm32f4/inc",
     "-mfpu=fpv4-sp-d16",
-    "-fsingle-precision-constant",
+    "-cl-single-precision-constant",
     "-Os",
     "-g",
   ],
@@ -156,7 +158,7 @@ base_project_h7 = {
     "-DSTM32H725xx",
     "-Iboard/stm32h7/inc",
     "-mfpu=fpv5-d16",
-    "-fsingle-precision-constant",
+    "-cl-single-precision-constant",
     "-Os",
     "-g",
   ],

@@ -75,3 +75,15 @@ int memcmp(const void * ptr1, const void * ptr2, unsigned int num) {
   }
   return ret;
 }
+
+void *__aeabi_memcpy4(void *dest, const void *src, unsigned int len) {
+  return memcpy(dest, src, len);
+}
+
+void *__aeabi_memclr4(void *dest, unsigned int n) {
+  return memset(dest, 0, n);
+}
+
+void *__aeabi_memclr8(void *dest, unsigned int n) {
+  return memset(dest, 0, n);
+}
